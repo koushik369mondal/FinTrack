@@ -8,6 +8,8 @@ const app = express();
 
 const PORT = process.env.PORT || 5000;
 
+// connectDB(process.env.DATABASE_URL);
+
 app.get('/', (req, res) => {
     res.send('Hello from Kaushik');
 });
