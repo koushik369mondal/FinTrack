@@ -19,6 +19,7 @@ async function initDB() {
             category VARCHAR(255) NOT NULL,
             created_at DATE NOT NULL DEFAULT CURRENT_DATE
         )`
+        // DECIMAL(10, 2) means = 10 digits total, 2 after decimal like 99999999.99
 
         console.log("Database initialized successfully");
     } catch (error) {
