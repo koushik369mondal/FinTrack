@@ -7,6 +7,9 @@ dotenv.config();
 
 const app = express();
 
+// Middleware to parse JSON bodies
+app.use(express.json());
+
 const PORT = process.env.PORT || 5000;
 
 async function initDB() {
@@ -28,9 +31,18 @@ async function initDB() {
     }
 }
 
-app.get('/', (req, res) => {
-    res.send('Hello from Kaushik');
-});
+app.get("/", (req, res) => {
+    res.send("FinTrack Backend is running");
+})
+
+// app.post("/api/transactions", async(req, res) => {
+//     //title, amount, category, user_id
+//     try {
+//         const { title, amount, category, user_id } = req.body;
+//     } catch (error) {
+        
+//     }
+// });
 
 initDB().then(() => {
     app.listen(PORT, () => {
