@@ -9,6 +9,11 @@ const app = express();
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+// Custom middleware to log request method
+app.use((req, res, next) => {
+    console.log("Hey we hit a request, the method is", req.method);
+    next();
+})
 
 const PORT = process.env.PORT || 5000;
 
