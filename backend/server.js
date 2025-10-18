@@ -9,11 +9,12 @@ const app = express();
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+
 // Custom middleware to log request method
-app.use((req, res, next) => {
-    console.log("Hey we hit a request, the method is", req.method);
-    next();
-})
+// app.use((req, res, next) => {
+//     console.log("Hey we hit a request, the method is", req.method);
+//     next();
+// })
 
 const PORT = process.env.PORT || 5000;
 
@@ -40,14 +41,14 @@ app.get("/", (req, res) => {
     res.send("FinTrack Backend is running");
 })
 
-// app.post("/api/transactions", async(req, res) => {
-//     //title, amount, category, user_id
-//     try {
-//         const { title, amount, category, user_id } = req.body;
-//     } catch (error) {
+app.post("/api/transactions", async(req, res) => {
+    //title, amount, category, user_id
+    try {
+        const { title, amount, category, user_id } = req.body;
+    } catch (error) {
         
-//     }
-// });
+    }
+});
 
 initDB().then(() => {
     app.listen(PORT, () => {
