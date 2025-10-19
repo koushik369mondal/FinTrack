@@ -41,12 +41,27 @@ app.get("/", (req, res) => {
     res.send("FinTrack Backend is running");
 })
 
-app.post("/api/transactions", async(req, res) => {
-    //title, amount, category, user_id
+app.post("/api/transactions", async (req, res) => {
+    //user_id, title, amount, category
     try {
-        const { title, amount, category, user_id } = req.body;
-    } catch (error) {
+        const { user_id, title, amount, category } = req.body;
+
+        if (!user_id || !title || !amount || !category === undefined) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        const transaction = await sql`
+            INSERT INTO transactions (user_id, title, amount, category)
+            VALUES (${user_id}, ${title}, ${amount}, ${category})
+            RETURNING *
+        `;
         
+        console.log("Transaction created:", transaction[0]);
+        res.status(201).json({ message: "Transaction created successfully", transaction: transaction[0] });
+        
+    } catch (error) {
+        console.log("Error creating the transaction:", error);
+        res.status(500).json({ message: "Internal Server Error" });
     }
 });
 
