@@ -41,6 +41,21 @@ app.get("/", (req, res) => {
     res.send("FinTrack Backend is running");
 })
 
+app.get("/api/transactions/:userId", async(req, res) =>{
+    try {
+        const { userId } = req.params;
+        const transactions = await sql`
+            SELECT * FROM transactions
+            WHERE user_id = ${userId}
+            ORDER BY created_at DESC
+        `;
+        res.status(200).json(transactions);
+    } catch (error) {
+        console.log("Error fetching transactions:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+})
+
 app.post("/api/transactions", async (req, res) => {
     //user_id, title, amount, category
     try {
