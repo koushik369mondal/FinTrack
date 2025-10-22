@@ -41,7 +41,7 @@ app.get("/", (req, res) => {
     res.send("FinTrack Backend is running");
 })
 
-app.get("/api/transactions/:userId", async(req, res) =>{
+app.get("/api/transactions/:userId", async (req, res) => {
     try {
         const { userId } = req.params;
         const transactions = await sql`
@@ -70,15 +70,34 @@ app.post("/api/transactions", async (req, res) => {
             VALUES (${user_id}, ${title}, ${amount}, ${category})
             RETURNING *
         `;
-        
+
         console.log("Transaction created:", transaction[0]);
         res.status(201).json({ message: "Transaction created successfully", transaction: transaction[0] });
-        
+
     } catch (error) {
         console.log("Error creating the transaction:", error);
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
+
+app.delete("/api/transactions/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const result = await sql`
+            DELETE FROM transactions 
+            WHERE id = ${id}
+            RETURNING *
+        `
+        if (result.length === 0) {
+            return res.status(404).json({ message: "Transaction not found" });
+        }
+        res.status(200).json({ message: "Transaction deleted successfully", transaction: result[0] });
+    } catch (error) {
+        console.log("Error deleting the transaction:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+})
 
 initDB().then(() => {
     app.listen(PORT, () => {
