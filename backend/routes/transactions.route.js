@@ -1,36 +1,12 @@
 import express from 'express';
 import { sql } from '../config/db.js';
-import { getTransactionsByUserId } from '../controllers/transactions.controller.js';
+import { createTransaction, getTransactionsByUserId } from '../controllers/transactions.controller.js';
 
 const router = express.Router();
 
 router.get("/:userId", getTransactionsByUserId);
 
-router.post("/", async (req, res) => {
-    //user_id, title, amount, category
-    try {
-        const { user_id, title, amount, category } = req.body;
-
-        if (!user_id || !title || !amount || !category === undefined) {
-            return res.status(400).json({ message: "All fields are required" });
-        }
-
-        const transaction = await sql`
-            INSERT INTO transactions (user_id, title, amount, category)
-            VALUES (${user_id}, ${title}, ${amount}, ${category})
-            RETURNING *
-        `;
-
-        console.log("Transaction created:", transaction[0]);
-        res.status(201).json({
-            message: "Transaction created successfully",
-            transaction: transaction[0],
-        });
-    } catch (error) {
-        console.log("Error creating the transaction:", error);
-        res.status(500).json({ message: "Internal Server Error" });
-    }
-});
+router.post("/", createTransaction);
 
 router.delete("/:id", async (req, res) => {
     try {
