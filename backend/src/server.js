@@ -1,11 +1,11 @@
 // const express = require('express');
 import express from "express";
 import dotenv from "dotenv";
-import { initDB } from "./src/config/db.js";
-import rateLimiter from "./src/middleware/rateLimiter.js";
+import { initDB } from "./config/db.js";
+import rateLimiter from "./middleware/rateLimiter.js";
 
-import transactionsRouter from "./src/routes/transactions.route.js";
-import productsRouter from "./src/routes/products.route.js";
+import transactionsRouter from "./routes/transactions.route.js";
+import productsRouter from "./routes/products.route.js";
 
 dotenv.config();
 
