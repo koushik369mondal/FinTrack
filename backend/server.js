@@ -5,6 +5,7 @@ import { sql } from "./config/db.js";
 import rateLimiter from "./middleware/rateLimiter.js";
 
 import transactionsRouter from "./routes/transactions.route.js";
+import productsRouter from "./routes/products.route.js";
 
 dotenv.config();
 
@@ -34,6 +35,16 @@ async function initDB() {
         )`;
         // DECIMAL(10, 2) means = 10 digits total, 2 after decimal like 99999999.99
 
+        await sql`CREATE TABLE IF NOT EXISTS products(
+            id SERIAL PRIMARY KEY,
+            user_id VARCHAR(255) NOT NULL,
+            name VARCHAR(255) NOT NULL,
+            price DECIMAL(10, 2) NOT NULL,
+            category VARCHAR(255) NOT NULL,
+            quantity INTEGER DEFAULT 1,
+            created_at DATE NOT NULL DEFAULT CURRENT_DATE
+        )`;
+
         console.log("Database initialized successfully");
     } catch (error) {
         console.error("Error initializing database:", error);
@@ -46,6 +57,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/transactions", transactionsRouter);
+app.use("/api/products", productsRouter);
 
 initDB().then(() => {
     app.listen(PORT, () => {
