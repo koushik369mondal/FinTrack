@@ -1,18 +1,18 @@
 import { Image } from "expo-image";
 import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 
 export default function Index() {
   return (
     <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
+      style={styles.container}
     >
       <Text style={{ color: "black" }}>Edit app/index.tsx to edit this screen.</Text>
       <Link href="/about">About</Link>
+
+      <View>
+        Hello
+      </View>
 
       <Image
         source={{ uri: "https://images.unsplash.com/photo-1765211003001-b9eb5cbfe1f3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }}
@@ -21,3 +21,11 @@ export default function Index() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+})
