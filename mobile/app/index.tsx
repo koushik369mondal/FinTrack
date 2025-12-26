@@ -7,9 +7,10 @@ export default function Index() {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor:"red"
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Text style={{ color: "white" }}>Edit app/index.tsx to edit this screen.</Text>
     </View>
   );
 }
