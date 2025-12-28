@@ -18,15 +18,51 @@ export default function SignUpScreen() {
     const [code, setCode] = useState('')
     const [error, setError] = useState("")
 
+    // Validate email format
+    const isValidEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        return emailRegex.test(email)
+    }
+
     // Handle submission of sign-up form
     const onSignUpPress = async () => {
         if (!isLoaded) return
 
+        // Clear previous errors
+        setError("")
+
+        // Trim and validate inputs
+        const trimmedEmail = emailAddress.trim()
+        const trimmedPassword = password.trim()
+
+        // Input validation
+        if (!trimmedEmail) {
+            setError("Email address is required")
+            return
+        }
+
+        if (!isValidEmail(trimmedEmail)) {
+            setError("Please enter a valid email address")
+            return
+        }
+
+        if (!trimmedPassword) {
+            setError("Password is required")
+            return
+        }
+
+        if (trimmedPassword.length < 8) {
+            setError("Password must be at least 8 characters")
+            return
+        }
+
+        console.log("Attempting sign-up with:", trimmedEmail)
+
         // Start sign-up process using email and password provided
         try {
             await signUp.create({
-                emailAddress,
-                password,
+                emailAddress: trimmedEmail,
+                password: trimmedPassword,
             })
 
             // Send user an email with verification code
@@ -36,9 +72,31 @@ export default function SignUpScreen() {
             // and capture OTP code
             setPendingVerification(true)
         } catch (err) {
-            // See https://clerk.com/docs/custom-flows/error-handling
-            // for more info on error handling
-            console.error(JSON.stringify(err, null, 2))
+            console.error("Sign-up error:", JSON.stringify(err, null, 2))
+
+            // Handle specific Clerk error codes
+            if (err.errors && err.errors.length > 0) {
+                const clerkError = err.errors[0]
+
+                switch (clerkError.code) {
+                    case "form_param_format_invalid":
+                        setError("Invalid email format. Please enter a valid email.")
+                        break
+                    case "form_identifier_exists":
+                        setError("An account with this email already exists. Please sign in.")
+                        break
+                    case "form_password_pwned":
+                        setError("This password has been compromised. Please use a different password.")
+                        break
+                    case "form_password_length_too_short":
+                        setError("Password must be at least 8 characters long.")
+                        break
+                    default:
+                        setError(clerkError.message || "An error occurred. Please try again.")
+                }
+            } else {
+                setError("An error occurred. Please try again.")
+            }
         }
     }
 
@@ -46,10 +104,20 @@ export default function SignUpScreen() {
     const onVerifyPress = async () => {
         if (!isLoaded) return
 
+        // Clear previous errors
+        setError("")
+
+        // Validate code
+        const trimmedCode = code.trim()
+        if (!trimmedCode) {
+            setError("Verification code is required")
+            return
+        }
+
         try {
             // Use the code the user provided to attempt verification
             const signUpAttempt = await signUp.attemptEmailAddressVerification({
-                code,
+                code: trimmedCode,
             })
 
             // If verification was completed, set the session to active
@@ -60,12 +128,29 @@ export default function SignUpScreen() {
             } else {
                 // If the status is not complete, check why. User may need to
                 // complete further steps.
-                console.error(JSON.stringify(signUpAttempt, null, 2))
+                console.error("Verification incomplete:", JSON.stringify(signUpAttempt, null, 2))
+                setError("Verification incomplete. Please try again.")
             }
         } catch (err) {
-            // See https://clerk.com/docs/custom-flows/error-handling
-            // for more info on error handling
-            console.error(JSON.stringify(err, null, 2))
+            console.error("Verification error:", JSON.stringify(err, null, 2))
+
+            // Handle specific Clerk error codes
+            if (err.errors && err.errors.length > 0) {
+                const clerkError = err.errors[0]
+
+                switch (clerkError.code) {
+                    case "form_code_incorrect":
+                        setError("Incorrect verification code. Please try again.")
+                        break
+                    case "verification_expired":
+                        setError("Verification code has expired. Please request a new one.")
+                        break
+                    default:
+                        setError(clerkError.message || "Verification failed. Please try again.")
+                }
+            } else {
+                setError("Verification failed. Please try again.")
+            }
         }
     }
 
@@ -77,7 +162,7 @@ export default function SignUpScreen() {
                 {error ? (
                     <View style={styles.errorBox}>
                         <Ionicons name="alert-circle" size={20} color={COLORS.expense} />
-                        <Text style={styles.errorText}>{"Something went wrong"}</Text>
+                        <Text style={styles.errorText}>{error}</Text>
                         <TouchableOpacity onPress={() => setError("")}>
                             <Ionicons name="close" size={20} color={COLORS.textLight} />
                         </TouchableOpacity>
@@ -89,7 +174,7 @@ export default function SignUpScreen() {
                     value={code}
                     placeholder="Enter your verification code"
                     placeholderTextColor="#9A8478"
-                    onChangeText={(code) => setCode(code)}
+                    onChangeText={(text) => setCode(text)}
                 />
                 <TouchableOpacity onPress={onVerifyPress} style={styles.button}>
                     <Text style={styles.buttonText}>Verify</Text>
@@ -99,11 +184,12 @@ export default function SignUpScreen() {
     }
 
     return (
-        <KeyboardAwareScrollView 
+        <KeyboardAwareScrollView
             style={{ flex: 1 }}
             contentContainerStyle={{ flexGrow: 1 }}
             enableOnAndroid={true}
             enableAutomaticScroll={true}
+            extraScrollHeight={100}
         >
             <View style={styles.container}>
                 <Image source={require("../../assets/images/revenue-i2.png")} style={styles.illustration} />
@@ -123,18 +209,20 @@ export default function SignUpScreen() {
                 <TextInput
                     style={[styles.input, error && styles.errorInput]}
                     autoCapitalize="none"
+                    autoCorrect={false}
+                    keyboardType="email-address"
                     value={emailAddress}
                     placeholderTextColor="#9A8478"
                     placeholder="Enter email"
-                    onChangeText={(email) => setEmailAddress(email)}
+                    onChangeText={(text) => setEmailAddress(text)}
                 />
                 <TextInput
                     style={[styles.input, error && styles.errorInput]}
                     value={password}
-                    placeholder="Enter password"
+                    placeholder="Enter password (min. 8 characters)"
                     placeholderTextColor="#9A8478"
                     secureTextEntry={true}
-                    onChangeText={(password) => setPassword(password)}
+                    onChangeText={(text) => setPassword(text)}
                 />
                 <TouchableOpacity style={styles.button} onPress={onSignUpPress}>
                     <Text style={styles.buttonText}>Sign Up</Text>
