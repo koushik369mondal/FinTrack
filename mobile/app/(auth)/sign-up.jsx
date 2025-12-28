@@ -86,11 +86,12 @@ export default function SignUpScreen() {
                 <TextInput
                 style={[styles.verificationInput , error && styles.errorInput]}
                     value={code}
-                    placeholder="Enter verification code"
+                    placeholder="Enter your verification code"
+                    placeholderTextColor="#9A8478"
                     onChangeText={(code) => setCode(code)}
                 />
-                <TouchableOpacity onPress={onVerifyPress}>
-                    <Text>Verify</Text>
+                <TouchableOpacity onPress={onVerifyPress} style={styles.button}>
+                    <Text style={styles.buttonText}>Verify</Text>
                 </TouchableOpacity>
             </View>
         )
