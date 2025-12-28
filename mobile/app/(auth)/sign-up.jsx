@@ -84,6 +84,7 @@ export default function SignUpScreen() {
                 ) : null}
 
                 <TextInput
+                style={[styles.verificationInput , error && styles.errorInput]}
                     value={code}
                     placeholder="Enter verification code"
                     onChangeText={(code) => setCode(code)}
