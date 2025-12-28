@@ -116,8 +116,10 @@ export default function SignUpScreen() {
                 ) : null}
 
                 <TextInput
+                    style={[styles.input, error && styles.errorInput]}
                     autoCapitalize="none"
                     value={emailAddress}
+                    placeholderTextColor="#9A8478"
                     placeholder="Enter email"
                     onChangeText={(email) => setEmailAddress(email)}
                 />
