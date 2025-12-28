@@ -103,7 +103,18 @@ export default function SignUpScreen() {
             <View style={styles.container}>
                 <Image source={require("../../assets/images/revenue-i2.png")} style={styles.illustration} />
 
-                <Text>Sign up</Text>
+                <Text style={styles.title}>Create Account</Text>
+
+                {error ? (
+                    <View style={styles.errorBox}>
+                        <Ionicons name="alert-circle" size={20} color={COLORS.expense} />
+                        <Text style={styles.errorText}>{error}</Text>
+                        <TouchableOpacity onPress={() => setError("")}>
+                            <Ionicons name="close" size={20} color={COLORS.textLight} />
+                        </TouchableOpacity>
+                    </View>
+                ) : null}
+
                 <TextInput
                     autoCapitalize="none"
                     value={emailAddress}
