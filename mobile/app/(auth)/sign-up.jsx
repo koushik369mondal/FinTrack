@@ -5,6 +5,7 @@ import { Link, useRouter } from 'expo-router'
 import { styles } from "@assets/styles/auth.styles.js"
 import { Ionicons } from '@expo/vector-icons'
 import { COLORS } from '@constants/colors.js'
+import { Image } from 'expo-image'
 
 
 export default function SignUpScreen() {
@@ -68,7 +69,7 @@ export default function SignUpScreen() {
         }
     }
 
-    if (true) {
+    if (pendingVerification) {
         return (
             <View style={styles.verificationContainer}>
                 <Text style={styles.verificationTitle}>Verify your email</Text>
@@ -84,7 +85,7 @@ export default function SignUpScreen() {
                 ) : null}
 
                 <TextInput
-                style={[styles.verificationInput , error && styles.errorInput]}
+                    style={[styles.verificationInput, error && styles.errorInput]}
                     value={code}
                     placeholder="Enter your verification code"
                     placeholderTextColor="#9A8478"
@@ -98,8 +99,10 @@ export default function SignUpScreen() {
     }
 
     return (
-        <View>
-            <>
+        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+            <View style={styles.container}>
+                <Image source={require("../../assets/images/revenue-i2.png")} style={styles.illustration} />
+
                 <Text>Sign up</Text>
                 <TextInput
                     autoCapitalize="none"
@@ -122,7 +125,7 @@ export default function SignUpScreen() {
                         <Text>Sign in</Text>
                     </Link>
                 </View>
-            </>
+            </View>
         </View>
     )
 }
