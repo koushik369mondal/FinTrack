@@ -124,8 +124,10 @@ export default function SignUpScreen() {
                     onChangeText={(email) => setEmailAddress(email)}
                 />
                 <TextInput
+                    style={[styles.input, error && styles.errorInput]}
                     value={password}
                     placeholder="Enter password"
+                    placeholderTextColor="#9A8478"
                     secureTextEntry={true}
                     onChangeText={(password) => setPassword(password)}
                 />
