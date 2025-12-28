@@ -68,7 +68,7 @@ export default function SignUpScreen() {
     if (true) {
         return (
             <View style={styles.verificationContainer}>
-                <Text>Verify your email</Text>
+                <Text style={styles.verificationTitle}>Verify your email</Text>
                 <TextInput
                     value={code}
                     placeholder="Enter your verification code"
