@@ -99,7 +99,7 @@ export default function SignUpScreen() {
     }
 
     return (
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <KeyboardAvoidingView style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
             <View style={styles.container}>
                 <Image source={require("../../assets/images/revenue-i2.png")} style={styles.illustration} />
 
@@ -142,6 +142,6 @@ export default function SignUpScreen() {
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </KeyboardAvoidingView>
     )
 }
