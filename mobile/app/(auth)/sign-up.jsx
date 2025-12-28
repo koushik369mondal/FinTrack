@@ -131,8 +131,8 @@ export default function SignUpScreen() {
                     secureTextEntry={true}
                     onChangeText={(password) => setPassword(password)}
                 />
-                <TouchableOpacity onPress={onSignUpPress}>
-                    <Text>Continue</Text>
+                <TouchableOpacity style={styles.button} onPress={onSignUpPress}>
+                    <Text style={styles.buttonText}>Sign Up</Text>
                 </TouchableOpacity>
                 <View style={{ display: 'flex', flexDirection: 'row', gap: 3 }}>
                     <Text>Already have an account?</Text>
