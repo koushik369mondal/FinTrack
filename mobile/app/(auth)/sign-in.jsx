@@ -15,6 +15,7 @@ export default function Page() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     // Validate email format
     const isValidEmail = (email) => {
@@ -142,15 +143,27 @@ export default function Page() {
                     editable={!isLoading}
                 />
 
-                <TextInput
-                    style={[styles.input, error && styles.errorInput]}
-                    value={password}
-                    placeholder="Enter password"
-                    placeholderTextColor="#9A8478"
-                    secureTextEntry={true}
-                    onChangeText={(text) => setPassword(text)}
-                    editable={!isLoading}
-                />
+                <View style={{ width: '100%', position: 'relative' }}>
+                    <TextInput
+                        style={[styles.input, error && styles.errorInput]}
+                        value={password}
+                        placeholder="Enter password"
+                        placeholderTextColor="#9A8478"
+                        secureTextEntry={!showPassword}
+                        onChangeText={(text) => setPassword(text)}
+                        editable={!isLoading}
+                    />
+                    <TouchableOpacity
+                        onPress={() => setShowPassword(!showPassword)}
+                        style={{ position: 'absolute', right: 15, top: 18 }}
+                    >
+                        <Ionicons
+                            name={showPassword ? "eye-off" : "eye"}
+                            size={24}
+                            color="#9A8478"
+                        />
+                    </TouchableOpacity>
+                </View>
 
                 <TouchableOpacity
                     style={[styles.button, isLoading && { opacity: 0.7 }]}

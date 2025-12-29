@@ -17,6 +17,7 @@ export default function SignUpScreen() {
     const [pendingVerification, setPendingVerification] = useState(false)
     const [code, setCode] = useState('')
     const [error, setError] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
 
     // Validate email format
     const isValidEmail = (email) => {
@@ -216,14 +217,26 @@ export default function SignUpScreen() {
                     placeholder="Enter email"
                     onChangeText={(text) => setEmailAddress(text)}
                 />
-                <TextInput
-                    style={[styles.input, error && styles.errorInput]}
-                    value={password}
-                    placeholder="Enter password (min. 8 characters)"
-                    placeholderTextColor="#9A8478"
-                    secureTextEntry={true}
-                    onChangeText={(text) => setPassword(text)}
-                />
+                <View style={{ width: '100%', position: 'relative' }}>
+                    <TextInput
+                        style={[styles.input, error && styles.errorInput]}
+                        value={password}
+                        placeholder="Enter password (min. 8 characters)"
+                        placeholderTextColor="#9A8478"
+                        secureTextEntry={!showPassword}
+                        onChangeText={(text) => setPassword(text)}
+                    />
+                    <TouchableOpacity
+                        onPress={() => setShowPassword(!showPassword)}
+                        style={{ position: 'absolute', right: 15, top: 18 }}
+                    >
+                        <Ionicons
+                            name={showPassword ? "eye-off" : "eye"}
+                            size={24}
+                            color="#9A8478"
+                        />
+                    </TouchableOpacity>
+                </View>
                 <TouchableOpacity style={styles.button} onPress={onSignUpPress}>
                     <Text style={styles.buttonText}>Sign Up</Text>
                 </TouchableOpacity>
