@@ -1,15 +1,17 @@
 import { useEffect } from 'react'
 import { SignedIn, SignedOut, useUser } from '@clerk/clerk-expo'
 import { Link } from 'expo-router'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Text, TouchableOpacity, View } from 'react-native'
 import { SignOutButton } from '@/components/SignOutButton'
 import { useTransactions } from '@/hooks/useTransactions'
 import PageLoader from '@/components/PageLoader'
 import { styles } from '@/assets/styles/home.styles'
 import { Image } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router' 
+import { useRouter } from 'expo-router'
 import { BalanceCard } from '@/components/BalanceCard'
+import { TransactionItem } from '@/components/TransactionItem'
+import { Alert } from 'react-native'
 
 export default function Page() {
   const { user } = useUser();
@@ -25,6 +27,13 @@ export default function Page() {
   // console.log("userId:", user.id);
   // console.log("Transactions:", transactions);
   // console.log("Summary:", summary);
+
+  const handleDelete = (id) => {
+    Alert.alert("Delete Transaction", "Are you sure you want to delete this transaction?", [
+      { text: "Cancel", style: "cancel" },
+      { text: "Delete", style: "destructive", onPress: () => deleteTransaction(id) },
+    ]);
+  };
 
   if (isLoading) return <PageLoader />
 
@@ -54,15 +63,26 @@ export default function Page() {
               <Text style={styles.addButtonText}>Add</Text>
             </TouchableOpacity>
             <SignOutButton />
-          </View>          
+          </View>
         </View>
 
         <BalanceCard summary={summary} />
-        
+
         <View style={styles.transactionsHeaderContainer}>
           <Text style={styles.sectionTitle}>Recent Transactions</Text>
         </View>
       </View>
+
+      {/* FlatList is a performant way to render long lists in React Native. */}
+      {/* it renders items lazily — only those on the screen. */}
+      <FlatList
+        style={styles.transactionsList}
+        contentContainerStyle={styles.transactionsListContent}
+        data={transactions}
+        renderItem={({item}) => (
+          <TransactionItem item={item} onDelete={handleDelete}/>
+        )}
+      />
     </View>
   )
 }
