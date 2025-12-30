@@ -10,6 +10,7 @@ import { SignOutButton } from '@/components/SignOutButton'
 import { TransactionItem } from '@/components/TransactionItem'
 import { useTransactions } from '@/hooks/useTransactions'
 import { styles } from '@/assets/styles/home.styles'
+import NoTransactionsFound from '@/components/NoTransactionsFound'
 
 export default function Page() {
   const { user } = useUser();
@@ -76,10 +77,11 @@ export default function Page() {
       <FlatList
         style={styles.transactionsList}
         contentContainerStyle={styles.transactionsListContent}
-        data={transactions}
+        data={[]}
         renderItem={({ item }) => (
           <TransactionItem item={item} onDelete={handleDelete} />
         )}
+        ListEmptyComponent={<NoTransactionsFound/>}
       />
     </View>
   )
