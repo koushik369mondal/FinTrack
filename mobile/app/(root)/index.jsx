@@ -36,6 +36,12 @@ export default function Page() {
               style={styles.headerLogo}
               resizeMode="contain"
             />
+            <View style={styles.welcomeContainer}>
+              <Text style={styles.welcomeText}>Welcome,</Text>
+              <Text style={styles.usernameText}>
+                {user?.emailAddresses[0]?.emailAddress.split("@")[0]}
+              </Text>
+            </View>
           </View>
           {/* RIGHT   */}
         </View>
