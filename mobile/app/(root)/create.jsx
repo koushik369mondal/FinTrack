@@ -155,6 +155,11 @@ const create = () => {
                     />
                 </View>
 
+                {/* TITLE */}
+                <Text style={styles.sectionTitle}>
+                    <Ionicons name="pricetag-outline" size={16} color={COLORS.text} /> Category
+                </Text>
+
             </View>
         </View>
     )
