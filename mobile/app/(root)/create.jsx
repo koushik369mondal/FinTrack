@@ -1,8 +1,11 @@
-import { View, Text, Alert } from 'react-native'
+import { View, Text, Alert, TouchableOpacity } from 'react-native'
 import { useRouter } from 'expo-router'
 import { useUser } from '@clerk/clerk-expo'
 import { useState } from 'react'
 import { API_URL } from '../../constants/api';
+import { styles} from '@/assets/styles/create.styles';
+import { Ionicons } from '@expo/vector-icons';
+import { COLORS } from '@/constants/colors';
 
 const CATEGORIES = [
     { id: "food", name: "Food & Drinks", icon: "fast-food" },
@@ -70,8 +73,22 @@ const create = () => {
     }
 
     return (
-        <View>
-            <Text>create</Text>
+        <View style={styles.container}>
+            {/* HEADER  */}
+            <View style={styles.header}>
+                <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+                    <Ionicons name="arrow-back" size={24} color={COLORS.text} />
+                </TouchableOpacity>
+                <Text style={styles.headerTitle}>New Transaction</Text>
+                <TouchableOpacity
+                    style={[styles.saveButtonContainer, isLoading && styles.saveButtonDisabled]}
+                    onPress={handleCreate}
+                    disabled={isLoading}
+                >
+                    <Text style={styles.saveButton}>{isLoading ? "Saving..." : "Save"}</Text>
+                    {!isLoading && <Ionicons name="checkmark" size={18} color={COLORS.primary} />}
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
