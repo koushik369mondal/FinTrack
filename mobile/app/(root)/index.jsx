@@ -5,6 +5,8 @@ import { Text, View } from 'react-native'
 import { SignOutButton } from '@/components/SignOutButton'
 import { useTransactions } from '@/hooks/useTransactions'
 import PageLoader from '@/components/PageLoader'
+import { styles } from '@/assets/styles/home.styles'
+import { Image } from 'react-native'
 
 export default function Page() {
   const { user } = useUser();
@@ -20,25 +22,24 @@ export default function Page() {
   // console.log("Transactions:", transactions);
   // console.log("Summary:", summary);
 
-  if(isLoading) return <PageLoader />
+  if (isLoading) return <PageLoader />
 
   return (
-    <View>
-      <SignedIn>
-        <Text>Hello {user?.emailAddresses[0].emailAddress}</Text>
-        <Text>Income: {summary.income}</Text>
-        <Text>Balance: {summary.balance}</Text>
-        <Text>Expenses: {summary.expenses}</Text>
-        <SignOutButton />
-      </SignedIn>
-      <SignedOut>
-        <Link href="/(auth)/sign-in">
-          <Text>Sign in</Text>
-        </Link>
-        <Link href="/(auth)/sign-up">
-          <Text>Sign up</Text>
-        </Link>
-      </SignedOut>
+    <View style={styles.container}>
+      <View style={styles.content}>
+        {/* HEADER  */}
+        <View style={styles.header}>
+          {/* LEFT  */}
+          <View style={styles.headerLeft}>
+            <Image
+              source={require("../../assets/images/logo.png")}
+              style={styles.headerLogo}
+              resizeMode="contain"
+            />
+          </View>
+          {/* RIGHT   */}
+        </View>
+      </View>
     </View>
   )
 }
