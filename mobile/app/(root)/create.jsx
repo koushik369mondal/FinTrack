@@ -1,4 +1,4 @@
-import { View, Text, Alert, TouchableOpacity } from 'react-native'
+import { View, Text, Alert, TouchableOpacity, TextInput } from 'react-native'
 import { useRouter } from 'expo-router'
 import { useUser } from '@clerk/clerk-expo'
 import { useState } from 'react'
@@ -124,6 +124,20 @@ const create = () => {
                         </Text>
                     </TouchableOpacity>
                 </View>
+
+                {/* AMOUNT CONTAINER */}
+                <View style={styles.amountContainer}>
+                    <Text style={styles.currencySymbol}>$</Text>
+                    <TextInput
+                        style={styles.amountInput}
+                        placeholder="0.00"
+                        placeholderTextColor={COLORS.textLight}
+                        value={amount}
+                        onChangeText={setAmount}
+                        keyboardType="numeric"
+                    />
+                </View>
+
             </View>
         </View>
     )
