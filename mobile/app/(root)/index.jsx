@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Alert, FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, FlatList, Image, RefreshControl, Text, TouchableOpacity, View } from 'react-native'
 import { useRouter } from 'expo-router'
 import { useUser } from '@clerk/clerk-expo'
 import { Ionicons } from '@expo/vector-icons'
@@ -11,13 +11,22 @@ import { TransactionItem } from '@/components/TransactionItem'
 import { useTransactions } from '@/hooks/useTransactions'
 import { styles } from '@/assets/styles/home.styles'
 import NoTransactionsFound from '@/components/NoTransactionsFound'
+import { useState } from 'react'
 
 export default function Page() {
   const { user } = useUser();
   const router = useRouter();
+  const [refreshing, setRefreshing] = useState(false);
+
   const { transactions, summary, isLoading, loadData, deleteTransaction } = useTransactions(
     user.id
   );
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await loadData();
+    setRefreshing(false);
+  }
 
   useEffect(() => {
     loadData();
@@ -34,7 +43,7 @@ export default function Page() {
     ]);
   };
 
-  if (isLoading) return <PageLoader />
+  if (isLoading && !refreshing) return <PageLoader />
 
   return (
     <View style={styles.container}>
@@ -77,11 +86,13 @@ export default function Page() {
       <FlatList
         style={styles.transactionsList}
         contentContainerStyle={styles.transactionsListContent}
-        data={[]}
+        data={transactions}
         renderItem={({ item }) => (
           <TransactionItem item={item} onDelete={handleDelete} />
         )}
-        ListEmptyComponent={<NoTransactionsFound/>}
+        ListEmptyComponent={<NoTransactionsFound />}
+        showsVerticalScrollIndicator={false}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       />
     </View>
   )
