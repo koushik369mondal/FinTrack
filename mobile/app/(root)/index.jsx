@@ -58,6 +58,10 @@ export default function Page() {
         </View>
 
         <BalanceCard summary={summary} />
+        
+        <View style={styles.transactionsHeaderContainer}>
+          <Text style={styles.sectionTitle}>Recent Transactions</Text>
+        </View>
       </View>
     </View>
   )
