@@ -1,15 +1,18 @@
 import { useEffect } from 'react'
 import { SignedIn, SignedOut, useUser } from '@clerk/clerk-expo'
 import { Link } from 'expo-router'
-import { Text, View } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 import { SignOutButton } from '@/components/SignOutButton'
 import { useTransactions } from '@/hooks/useTransactions'
 import PageLoader from '@/components/PageLoader'
 import { styles } from '@/assets/styles/home.styles'
 import { Image } from 'react-native'
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router' 
 
 export default function Page() {
   const { user } = useUser();
+  const router = useRouter();
   const { transactions, summary, isLoading, loadData, deleteTransaction } = useTransactions(
     user.id
   );
@@ -44,6 +47,14 @@ export default function Page() {
             </View>
           </View>
           {/* RIGHT   */}
+          <View style={styles.headerRight}>
+            <TouchableOpacity style={styles.addButton} onPress={() => router.push("/create")}>
+              <Ionicons name="add-circle" size={20} color="#FFF" />
+              <Text style={styles.addButtonText}>Add</Text>
+            </TouchableOpacity>
+            <SignOutButton />
+          </View>
+          
         </View>
       </View>
     </View>
