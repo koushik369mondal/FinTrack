@@ -1,4 +1,4 @@
-import { View, Text, Alert, TouchableOpacity, TextInput } from 'react-native'
+import { View, Text, Alert, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native'
 import { useRouter } from 'expo-router'
 import { useUser } from '@clerk/clerk-expo'
 import { useState } from 'react'
@@ -187,8 +187,12 @@ const create = () => {
                         </TouchableOpacity>
                     ))}
                 </View>
-
             </View>
+            {isLoading && (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color={COLORS.primary} />
+                </View>
+            )}
         </View>
     )
 }
