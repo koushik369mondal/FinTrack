@@ -9,6 +9,7 @@ import { styles } from '@/assets/styles/home.styles'
 import { Image } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router' 
+import { BalanceCard } from '@/components/BalanceCard'
 
 export default function Page() {
   const { user } = useUser();
@@ -53,9 +54,10 @@ export default function Page() {
               <Text style={styles.addButtonText}>Add</Text>
             </TouchableOpacity>
             <SignOutButton />
-          </View>
-          
+          </View>          
         </View>
+
+        <BalanceCard summary={summary} />
       </View>
     </View>
   )
