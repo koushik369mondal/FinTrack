@@ -1,17 +1,15 @@
 import { useEffect } from 'react'
-import { SignedIn, SignedOut, useUser } from '@clerk/clerk-expo'
-import { Link } from 'expo-router'
-import { FlatList, Text, TouchableOpacity, View } from 'react-native'
-import { SignOutButton } from '@/components/SignOutButton'
-import { useTransactions } from '@/hooks/useTransactions'
-import PageLoader from '@/components/PageLoader'
-import { styles } from '@/assets/styles/home.styles'
-import { Image } from 'react-native'
-import { Ionicons } from '@expo/vector-icons';
+import { Alert, FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
 import { useRouter } from 'expo-router'
+import { useUser } from '@clerk/clerk-expo'
+import { Ionicons } from '@expo/vector-icons'
+
 import { BalanceCard } from '@/components/BalanceCard'
+import PageLoader from '@/components/PageLoader'
+import { SignOutButton } from '@/components/SignOutButton'
 import { TransactionItem } from '@/components/TransactionItem'
-import { Alert } from 'react-native'
+import { useTransactions } from '@/hooks/useTransactions'
+import { styles } from '@/assets/styles/home.styles'
 
 export default function Page() {
   const { user } = useUser();
@@ -79,8 +77,8 @@ export default function Page() {
         style={styles.transactionsList}
         contentContainerStyle={styles.transactionsListContent}
         data={transactions}
-        renderItem={({item}) => (
-          <TransactionItem item={item} onDelete={handleDelete}/>
+        renderItem={({ item }) => (
+          <TransactionItem item={item} onDelete={handleDelete} />
         )}
       />
     </View>
