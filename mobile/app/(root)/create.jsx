@@ -138,6 +138,23 @@ const create = () => {
                     />
                 </View>
 
+                {/* INPUT CONTAINER */}
+                <View style={styles.inputContainer}>
+                    <Ionicons
+                        name="create-outline"
+                        size={22}
+                        color={COLORS.textLight}
+                        style={styles.inputIcon}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Transaction Title"
+                        placeholderTextColor={COLORS.textLight}
+                        value={title}
+                        onChangeText={setTitle}
+                    />
+                </View>
+
             </View>
         </View>
     )
