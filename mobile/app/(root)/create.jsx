@@ -2,6 +2,7 @@ import { View, Text, Alert } from 'react-native'
 import { useRouter } from 'expo-router'
 import { useUser } from '@clerk/clerk-expo'
 import { useState } from 'react'
+import { API_URL } from '../../constants/api';
 
 const CATEGORIES = [
     { id: "food", name: "Food & Drinks", icon: "fast-food" },
@@ -39,6 +40,18 @@ const create = () => {
                 ? -Math.abs(parseFloat(amount))
                 : Math.abs(parseFloat(amount));
                 
+                const response = await fetch(`${API_URL}/transactions`,{
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        user_id: user.id,
+                        title,
+                        amount: formattedAmount,
+                        category: selectedCategory,
+                    }),
+                })
         } catch (error) {
             
         } finally {
