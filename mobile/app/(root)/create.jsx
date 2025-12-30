@@ -160,6 +160,34 @@ const create = () => {
                     <Ionicons name="pricetag-outline" size={16} color={COLORS.text} /> Category
                 </Text>
 
+                <View style={styles.categoryGrid}>
+                    {CATEGORIES.map(category => (
+                        <TouchableOpacity
+                            key={category.id}
+                            style={[
+                                styles.categoryButton,
+                                selectedCategory === category.name && styles.categoryButtonActive,
+                            ]}
+                            onPress={() => setSelectedCategory(category.name)}
+                        >
+                            <Ionicons
+                                name={category.icon}
+                                size={20}
+                                color={selectedCategory === category.name ? COLORS.white : COLORS.text}
+                                style={styles.categoryIcon}
+                            />
+                            <Text
+                                style={[
+                                    styles.categoryButtonText,
+                                    selectedCategory === category.name && styles.categoryButtonTextActive,
+                                ]}
+                            >
+                                {category.name}
+                            </Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+
             </View>
         </View>
     )
