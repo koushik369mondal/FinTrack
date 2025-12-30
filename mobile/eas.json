@@ -1,0 +1,36 @@
+{
+  "cli": {
+    "version": ">= 16.28.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_dGlkeS1zaHJpbXAtMjkuY2xlcmsuYWNjb3VudHMuZGV2JA"
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_dGlkeS1zaHJpbXAtMjkuY2xlcmsuYWNjb3VudHMuZGV2JA"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
