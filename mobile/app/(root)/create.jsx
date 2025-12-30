@@ -107,6 +107,22 @@ const create = () => {
                             Expense
                         </Text>
                     </TouchableOpacity>
+
+                    {/* INCOME SELECTOR */}
+                    <TouchableOpacity
+                        style={[styles.typeButton, !isExpense && styles.typeButtonActive]}
+                        onPress={() => setIsExpense(false)}
+                    >
+                        <Ionicons
+                            name="arrow-up-circle"
+                            size={22}
+                            color={!isExpense ? COLORS.white : COLORS.income}
+                            style={styles.typeIcon}
+                        />
+                        <Text style={[styles.typeButtonText, !isExpense && styles.typeButtonTextActive]}>
+                            Income
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </View>
